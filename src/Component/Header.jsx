@@ -132,7 +132,7 @@ function Header() {
     {isMenuOpen && (
       <div className="absolute left-0 right-0 bg-white z-40 px-6 py-4 shadow-lg mt-1">
         <div className="space-y-2">
-          <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-50 rounded-md">
+          <a href="/" className="block py-2 px-4 text-gray-700 hover:bg-gray-50 rounded-md">
             Home
           </a>
           <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-50 rounded-md">
@@ -148,9 +148,11 @@ function Header() {
             <button className="w-full py-2 px-4 text-left text-gray-700 hover:bg-gray-50 rounded-md">
               Login
             </button>
-            <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-              Sign Up
-            </button>
+            <Link to="/register">
+              <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                Sign Up
+              </button>
+            </Link>
           </div>
         </div>
       </div>

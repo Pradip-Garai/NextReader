@@ -6,7 +6,9 @@ function Footer() {
       <div className="max-w-6xl mx-auto">
         {/* Top Section - Brand Info */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold">NEXTREADER</h2>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">
+          NEXTREAD
+          </h1>
           <p className="text-gray-300 mt-2">
             Your ultimate destination for academic books and digital learning resources.
           </p>
