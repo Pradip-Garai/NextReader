@@ -2,7 +2,7 @@ import React from 'react';
 
 function Body() {
   const categories = [
-    { logo: '/science-logo.avif', full: 'Science' },
+    { logo: '/Science-Logo.png', full: 'Science' },
     { logo: '/tech-logo.jpg', full: 'Technology' },
     { logo: '/math-logo.webp', full: 'Mathematics' },
     { logo: '/literature-logo.jpg', full: 'Literature' },
@@ -211,7 +211,10 @@ function Body() {
           {/* Physical Books Card */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Physical Books Store</h2>
+              <div className="flex items-center gap-3">
+                <img src='/Cart.png' className="h-8 w-8" />
+                <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
+              </div>
               <p className="text-gray-600 mb-6">Order printed books with home delivery</p>
               
               <ul className="space-y-3 mb-8">
@@ -244,7 +247,10 @@ function Body() {
           {/* Digital Library Card */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Digital Library</h2>
+               <div className="flex items-center gap-3">
+                <img src='/tablet.png' className="h-8 w-8" />
+                <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
+              </div>
               <p className="text-gray-600 mb-6">Read and download digital books instantly</p>
               
               <ul className="space-y-3 mb-8">
