@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import CountUp from 'react-countup';
 
 function Body() {
   const categories = [
@@ -97,6 +99,26 @@ function Body() {
       image: "/book5.webp",
       type: "Physical"
     }
+  ];
+
+  // Stats section implementation
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const { ref: statsRef, inView: statsInView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
+  useEffect(() => {
+    if (statsInView) {
+      setHasAnimated(true);
+    }
+  }, [statsInView]);
+
+  const stats = [
+    { number: 10000, label: "Books Available", suffix: "+" },
+    { number: 5000, label: "Happy Students", suffix: "+" },
+    { number: 500, label: "Free Resources", suffix: "+" },
+    { number: 24, label: "Access Support", suffix: "/7" }
   ];
 
   return (
@@ -315,6 +337,31 @@ function Body() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Animated Statistics Section */}
+      <div ref={statsRef} className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center p-4">
+                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                  {hasAnimated ? (
+                    <CountUp
+                      end={stat.number}
+                      duration={2.5}
+                      suffix={stat.suffix}
+                      separator=","
+                    />
+                  ) : (
+                    <span>0{stat.suffix}</span>
+                  )}
+                </div>
+                <p className="text-md md:text-lg text-gray-600 font-medium">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
