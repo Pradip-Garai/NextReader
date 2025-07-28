@@ -112,7 +112,7 @@ function Body() {
       >
         <div className="text-center max-w-2xl mx-auto p-4 md:p-6">
           <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">
-            Discover Your<br />Next Great Read
+            Discover Your Next Great Read
           </h1>
           <p className="text-base md:text-xl mb-6 md:mb-8 leading-relaxed">
             Access thousands of books - buy<br className="md:hidden" />

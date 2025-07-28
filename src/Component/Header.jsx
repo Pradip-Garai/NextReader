@@ -15,7 +15,10 @@ function Header() {
             {/* Logo - Increased size from h-10 w-10 to h-12 w-12 */}
             <div className="flex-shrink-0 flex items-center">
              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent">
-               <img src='/NextRead.png' style={{height:"70px",width:"100px", marginTop:"10px"}}/>
+              <Link to="/">
+                 <img src='/NextRead.png' style={{height:"70px",width:"100px", marginTop:"10px"}}/>
+              </Link>
+               
              </h1>
             </div>
 
@@ -77,7 +80,9 @@ function Header() {
     <div className="flex items-center justify-between h-16">
       {/* Logo */}
       <div className="flex items-center">
-        <img src='/NextRead.png' style={{height:"70px",width:"100px", marginTop:"10px"}}/>
+          <Link to="/">
+                 <img src='/NextRead.png' style={{height:"70px",width:"100px", marginTop:"10px"}}/>
+          </Link>
       </div>
 
       {/* Mobile Icons */}
