@@ -12,7 +12,7 @@ function Body() {
     { logo: '/story-logo.webp', full: 'Stories' },
   ];
 
-   const books = [
+  const books = [
     {
       title: "Advanced Mathematics",
       author: "Dr. Sarah Johnson",
@@ -83,14 +83,14 @@ function Body() {
       image: "/book5.webp",
       type: "Physical"
     },
-     {
+    {
       title: "Social Studies Textbook",
       author: "Various Authors",
       price: "$19.99",
       image: "/book5.webp",
       type: "Physical"
     },
-     {
+    {
       title: "Social Studies Textbook",
       author: "Various Authors",
       price: "$19.99",
@@ -146,17 +146,20 @@ function Body() {
                 {categories.map((category, index) => (
                   <div 
                     key={index}
-                    className="flex-shrink-0 bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-shadow"
-                    style={{ minWidth: '120px' }}
+                    className="flex-shrink-0 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition-all transform hover:-translate-y-1"
+                    style={{ 
+                      minWidth: '120px',
+                      background: `linear-gradient(135deg, ${getCategoryColor(index).from} 0%, ${getCategoryColor(index).to} 100%)`
+                    }}
                   >
-                    <div className="h-16  flex items-center justify-center mb-2">
+                    <div className="h-16 flex items-center justify-center mb-2">
                       <img 
                         src={category.logo} 
                         alt={category.full}
                         style={{ height: "97px", width: "100px", borderRadius: "50%" }} 
                       />
                     </div>
-                    <span className="text-sm text-gray-600">{category.full}</span>
+                    <span className="text-sm font-medium text-white">{category.full}</span>
                   </div>
                 ))}
               </div>
@@ -165,125 +168,166 @@ function Body() {
         </div>
       </div>
 
-
-      {/* feature books section */}
-         <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {books.map((book, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300">
-              {/* Book Cover */}
-              <div className="h-48 bg-gray-100 flex items-center justify-center p-1">
-                <img 
-                  src={book.image} 
-                  alt={book.title}
-                  className="h-full  object-contain"
-                  style={{ height: "200px", width: "300px" }}
-                />
-              </div>
-              
-              {/* Book Details */}
-              <div className="p-6">
-                <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full mb-2 ${
-                  book.type === "Physical" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"
-                }`}>
-                  {book.type}
-                </span>
+      {/* Feature Books Section */}
+      <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {books.map((book, index) => (
+              <div 
+                key={index} 
+                className="rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                style={{
+                  background: book.type === "Physical" 
+                    ? "linear-gradient(to bottom, #f0f9ff 0%, #e0f2fe 100%)" 
+                    : "linear-gradient(to bottom, #f5f3ff 0%, #ede9fe 100%)"
+                }}
+              >
+                {/* Book Cover */}
+                <div className="h-48 flex items-center justify-center p-1 bg-white/50">
+                  <img 
+                    src={book.image} 
+                    alt={book.title}
+                    className="h-full object-contain"
+                    style={{ height: "200px", width: "300px" }}
+                  />
+                </div>
                 
-                <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
-                <p className="text-gray-600 mb-3">{book.author}</p>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-gray-900">{book.price}</span>
+                {/* Book Details */}
+                <div className="p-6">
+                  <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full mb-2 ${
+                    book.type === "Physical" 
+                      ? "bg-blue-100 text-blue-800" 
+                      : "bg-purple-100 text-purple-800"
+                  }`}>
+                    {book.type}
+                  </span>
+                  
+                  <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
+                  <p className="text-gray-600 mb-3">{book.author}</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className={`text-lg font-bold ${
+                      book.price === "Free" 
+                        ? "text-green-600" 
+                        : "text-gray-900"
+                    }`}>
+                      {book.price}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
 
-
-     {/* explore books store and digital libery section */}
+      {/* Explore Books Store and Digital Library Section */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Physical Books Card */}
-          <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="p-8">
-              <div className="flex items-center gap-3">
-                <img src='/Cart.png' className="h-8 w-8" />
-                <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Physical Books Card */}
+            <div 
+              className="rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)",
+                borderLeft: "4px solid #0ea5e9"
+              }}
+            >
+              <div className="p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src='/Cart.png' className="h-8 w-8" />
+                  <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
+                </div>
+                <p className="text-gray-700 mb-6">Order printed books with home delivery</p>
+                
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Wide selection of textbooks and references</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Fast home delivery service</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Competitive pricing for students</span>
+                  </li>
+                </ul>
+                
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
+                  Browse Physical Books
+                </button>
               </div>
-              <p className="text-gray-600 mb-6">Order printed books with home delivery</p>
-              
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Wide selection of textbooks and references</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Fast home delivery service</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Competitive pricing for students</span>
-                </li>
-              </ul>
-              
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
-                Browse Physical Books
-              </button>
             </div>
-          </div>
 
-          {/* Digital Library Card */}
-          <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            <div className="p-8">
-               <div className="flex items-center gap-3">
-                <img src='/tablet.png' className="h-8 w-8" />
-                <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
+            {/* Digital Library Card */}
+            <div 
+              className="rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)",
+                borderLeft: "4px solid #8b5cf6"
+              }}
+            >
+              <div className="p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <img src='/tablet.png' className="h-8 w-8" />
+                  <h2 className="text-2xl font-bold text-gray-800">Digital Library</h2>
+                </div>
+                <p className="text-gray-700 mb-6">Read and download digital books instantly</p>
+                
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Free books available for download</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Premium content with rental options</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">Instant access from any device</span>
+                  </li>
+                </ul>
+                
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
+                  Explore Digital Library
+                </button>
               </div>
-              <p className="text-gray-600 mb-6">Read and download digital books instantly</p>
-              
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Free books available for download</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Premium content with rental options</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">Instant access from any device</span>
-                </li>
-              </ul>
-              
-              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
-                Explore Digital Library
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
+}
+
+// Helper function to generate category colors
+function getCategoryColor(index) {
+  const colors = [
+    { from: '#3b82f6', to: '#93c5fd' }, // blue
+    { from: '#10b981', to: '#6ee7b7' }, // emerald
+    { from: '#f59e0b', to: '#fcd34d' }, // amber
+    { from: '#ef4444', to: '#fca5a5' }, // red
+    { from: '#8b5cf6', to: '#c4b5fd' }, // violet
+    { from: '#ec4899', to: '#f9a8d4' }, // pink
+    { from: '#14b8a6', to: '#5eead4' }, // teal
+    { from: '#f97316', to: '#fdba74' }  // orange
+  ];
+  return colors[index % colors.length];
 }
 
 export default Body;
