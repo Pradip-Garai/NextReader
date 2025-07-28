@@ -101,8 +101,9 @@ function Body() {
 
   return (
     <>
+      {/* Hero Banner Section */}
       <div 
-        className="min-h-[400px] md:min-h-[500px] flex items-center justify-center bg-cover bg-center text-white"
+        className="min-h-[295px] md:min-h-[395px] flex items-center justify-center bg-cover bg-center text-white"
         style={{
           backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/Banner.jpg)",
           backgroundSize: "cover",
@@ -122,7 +123,7 @@ function Body() {
           
           <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4">
             <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg text-base md:text-lg">
-              Explore Books
+              Explore Books Store
             </button>
             <button className="bg-transparent hover:bg-white hover:text-black text-white font-bold py-2 md:py-3 px-4 md:px-6 border-2 border-white rounded-lg text-base md:text-lg">
               Digital Library
@@ -131,15 +132,13 @@ function Body() {
         </div>
       </div>
 
-      {/* Category Section with Horizontal Scroll */}
+      {/* Category Section */}
       <div className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">Our Books Category</h2>
           </div>
 
-          {/* Horizontal Scroll Container */}
           <div className="relative">
             <div className="flex overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
               <div className="flex space-x-8">
@@ -168,22 +167,21 @@ function Body() {
         </div>
       </div>
 
-      {/* Feature Books Section */}
+      {/* Featured Books Section */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Curated Highlights</h1>
+          <p className="text-gray-600">Handpicked Favorites from Our Collection</p>
+        </div>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {books.map((book, index) => (
               <div 
                 key={index} 
-                className="rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                style={{
-                  background: book.type === "Physical" 
-                    ? "linear-gradient(to bottom, #f0f9ff 0%, #e0f2fe 100%)" 
-                    : "linear-gradient(to bottom, #f5f3ff 0%, #ede9fe 100%)"
-                }}
+                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col h-full"
               >
                 {/* Book Cover */}
-                <div className="h-48 flex items-center justify-center p-1 bg-white/50">
+                <div className="h-48 bg-gray-50 flex items-center justify-center p-1">
                   <img 
                     src={book.image} 
                     alt={book.title}
@@ -193,7 +191,7 @@ function Body() {
                 </div>
                 
                 {/* Book Details */}
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full mb-2 ${
                     book.type === "Physical" 
                       ? "bg-blue-100 text-blue-800" 
@@ -203,16 +201,34 @@ function Body() {
                   </span>
                   
                   <h3 className="text-xl font-bold text-gray-800 mb-1 line-clamp-2">{book.title}</h3>
-                  <p className="text-gray-600 mb-3">{book.author}</p>
+                  <p className="text-gray-600 mb-2">{book.author}</p>
                   
-                  <div className="flex items-center justify-between">
-                    <span className={`text-lg font-bold ${
-                      book.price === "Free" 
-                        ? "text-green-600" 
-                        : "text-gray-900"
-                    }`}>
-                      {book.price}
-                    </span>
+                  {/* Rating */}
+                  <div className="flex items-center mb-3">
+                    <div className="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-gray-500 text-xs ml-1">(24)</span>
+                  </div>
+                  
+                  <div className="mt-auto">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className={`text-lg font-bold ${
+                        book.price === "Free" 
+                          ? "text-green-600" 
+                          : "text-gray-900"
+                      }`}>
+                        {book.price}
+                      </span>
+                    </div>
+                    
+                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>
@@ -221,40 +237,37 @@ function Body() {
         </div>
       </div>
 
-      {/* Explore Books Store and Digital Library Section */}
+      {/* Store and Library Section */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Explore an Expansive Selection in Our Store and Library</h1>
+        </div>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Physical Books Card */}
-            <div 
-              className="rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1"
-              style={{
-                background: "linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)",
-                borderLeft: "4px solid #0ea5e9"
-              }}
-            >
+            <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all border border-gray-100">
               <div className="p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <img src='/Cart.png' className="h-8 w-8" />
                   <h2 className="text-2xl font-bold text-gray-800">Physical Books Store</h2>
                 </div>
-                <p className="text-gray-700 mb-6">Order printed books with home delivery</p>
+                <p className="text-gray-600 mb-6">Order printed books with home delivery</p>
                 
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Wide selection of textbooks and references</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Fast home delivery service</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Competitive pricing for students</span>
@@ -268,35 +281,29 @@ function Body() {
             </div>
 
             {/* Digital Library Card */}
-            <div 
-              className="rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1"
-              style={{
-                background: "linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)",
-                borderLeft: "4px solid #8b5cf6"
-              }}
-            >
+            <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all border border-gray-100">
               <div className="p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <img src='/tablet.png' className="h-8 w-8" />
                   <h2 className="text-2xl font-bold text-gray-800">Digital Library</h2>
                 </div>
-                <p className="text-gray-700 mb-6">Read and download digital books instantly</p>
+                <p className="text-gray-600 mb-6">Read and download digital books instantly</p>
                 
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Free books available for download</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Premium content with rental options</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-purple-600 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-5 w-5 text-purple-500 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className="text-gray-700">Instant access from any device</span>
