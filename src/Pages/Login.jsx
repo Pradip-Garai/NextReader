@@ -8,7 +8,7 @@ function LoginPage() {
           {/* Form Section - Left Side */}
           <div className="p-8 md:w-1/2">
             <h1 className="text-2xl font-bold text-gray-800 mb-2">Sign In to Your Account</h1>
-            <p className="text-gray-600 mb-6">Access thousands of academic resources and manage your library</p>
+            <p className="text-gray-600 mb-6">Welcome back! Access your library and continue your learning journey.</p>
 
             <form className="space-y-4">
               {/* Email */}
@@ -64,7 +64,7 @@ function LoginPage() {
                    backgroundPosition: "center",
                    backgroundRepeat: "no-repeat"
                   }} >
-              <span className='ml-[29px] mt-[35rem] text-emerald-50 text-lg '>Welcome back! Continue your learning journey with NextRead</span>
+              <span className='ml-[29px] mt-[35rem] text-emerald-50 text-lg '>Access thousands of academic resources and get 10,000+ Books for Passionate Learners</span>
             </div>
           </div>
         </div>
