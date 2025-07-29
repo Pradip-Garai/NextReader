@@ -5,6 +5,8 @@ import Body from './Pages/Body';
 import Footer from './Component/Footer';
 import Register from './Pages/Register';
 import BookStore from './Pages/BookStore';
+import Login from './Pages/Login';
+import DigitalLibrary from './Pages/DigitalLibrary';
 
 function App() {
   // 🛒 Cart and ❤️ Favorite state lifted up
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Body />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/digital-library' element={<DigitalLibrary />} />
 
         {/* Pass state + setters to BookStore */}
         <Route

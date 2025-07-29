@@ -189,9 +189,11 @@ function Body() {
               Explore Books Store
             </button>
             </Link>
+            <Link to="/digital-library">
             <button className="w-full max-w-[240px] sm:max-w-[260px] md:max-w-[280px] mx-auto bg-transparent hover:bg-white hover:text-black text-white font-semibold py-2 sm:py-2.5 md:py-3 px-4 sm:px-5 md:px-6 border-2 border-white rounded-lg text-sm sm:text-base md:text-lg transition-all duration-200">
               Digital Library
             </button>
+            </Link>
 
           </div>
         </div>
@@ -376,9 +378,11 @@ function Body() {
                   </li>
                 </ul>
                 
+                <Link to="/digital-library">
                 <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
                   Explore Digital Library
                 </button>
+                </Link>
               </div>
             </div>
           </div>
