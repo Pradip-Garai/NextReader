@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import CountUp from 'react-countup';
+import { Link } from 'react-router';
 
 function Body() {
   const categories = [
@@ -183,9 +184,11 @@ function Body() {
           </p>
           
           <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4">
+            <Link to="/book-store">
             <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 md:py-3 px-4 md:px-6 rounded-lg text-base md:text-lg">
               Explore Books Store
             </button>
+            </Link>
             <button className="bg-transparent hover:bg-white hover:text-black text-white font-bold py-2 md:py-3 px-4 md:px-6 border-2 border-white rounded-lg text-base md:text-lg">
               Digital Library
             </button>
@@ -334,10 +337,11 @@ function Body() {
                     <span className="text-gray-700">Competitive pricing for students</span>
                   </li>
                 </ul>
-                
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
-                  Browse Physical Books
-                </button>
+                <Link to="/book-store">
+                   <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200">
+                     Browse Physical Books
+                   </button>
+                </Link>
               </div>
             </div>
 
