@@ -160,11 +160,22 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Add custom CSS for scrollbar hiding */}
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Search & Filter */}
         <div className="mb-8 bg-white p-6 rounded-lg shadow-sm">
+          {/* Search and Sort */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            {/* Search */}
             <div className="relative flex-grow">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FiSearch className="h-5 w-5 text-gray-400" />
@@ -178,7 +189,6 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
               />
             </div>
 
-            {/* Sort */}
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
@@ -210,8 +220,54 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
             </div>
           </div>
 
-          {/* Category and Price Filter */}
-          <div className="mt-4 flex flex-wrap gap-4 items-end">
+          {/* Mobile Filters - Horizontal Scroll */}
+          <div className="mt-4 md:hidden">
+            <div className="flex space-x-4 pb-2 overflow-x-auto scrollbar-hide">
+              {/* Category Dropdown */}
+              <div className="flex-shrink-0">
+                <select
+                  id="mobile-category"
+                  className="block pl-3 pr-8 py-2 border border-gray-300 rounded-md text-sm"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                >
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Price Range Filters */}
+              {priceRanges.map((range, index) => (
+                <div key={index} className="flex-shrink-0 flex items-center">
+                  <input
+                    id={`mobile-price-range-${index}`}
+                    type="checkbox"
+                    checked={selectedPriceRanges.some(r => 
+                      r.min === range.min && r.max === range.max
+                    )}
+                    onChange={() => togglePriceRange(range)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor={`mobile-price-range-${index}`} className="ml-2 text-sm text-gray-700 whitespace-nowrap">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
+
+              {/* Reset Button */}
+              <button
+                onClick={resetAllFilters}
+                className="flex-shrink-0 flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50 whitespace-nowrap"
+              >
+                <FiRefreshCw className="mr-1" />
+                Reset
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Filters */}
+          <div className="mt-4 hidden md:flex flex-wrap gap-4 items-end">
             <div>
               <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select

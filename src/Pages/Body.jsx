@@ -189,9 +189,10 @@ function Body() {
               Explore Books Store
             </button>
             </Link>
-            <button className="bg-transparent hover:bg-white hover:text-black text-white font-bold py-2 md:py-3 px-4 md:px-6 border-2 border-white rounded-lg text-base md:text-lg">
+            <button className="w-full max-w-[240px] sm:max-w-[260px] md:max-w-[280px] mx-auto bg-transparent hover:bg-white hover:text-black text-white font-semibold py-2 sm:py-2.5 md:py-3 px-4 sm:px-5 md:px-6 border-2 border-white rounded-lg text-sm sm:text-base md:text-lg transition-all duration-200">
               Digital Library
             </button>
+
           </div>
         </div>
       </div>
@@ -523,7 +524,7 @@ function Body() {
                  backgroundRepeat: "no-repeat"
                }}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+              <h3 className="text-xl font-semibold text-white mb-6 mt-[158px]">Contact Information</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start">
