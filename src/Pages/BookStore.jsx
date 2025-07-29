@@ -76,7 +76,117 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       image: "/book2.webp",
       liked: false,
       inCart: false
-    }
+    },
+    {
+      id: 7,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 8,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 9,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 10,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 11,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 12,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 13,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 14,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 15,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
+    {
+      id: 16,
+      title: "The Silent Patient",
+      author: "Alex Michaelides",
+      price: 24.99,
+      category: "Thriller",
+      rating: 4.5,
+      image: "/book1.webp",
+      liked: false,
+      inCart: false
+    },
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
