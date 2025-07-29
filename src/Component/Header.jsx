@@ -81,7 +81,6 @@ function Header({ cart, favorites }) {
               <Link to="/">
                 <img src="/NextRead.png" style={{ height: '48px', width: '70px' }} alt="logo" />
               </Link>
-              <span className="ml-2 text-lg font-bold text-gray-800">NextRead</span>
             </div>
 
             {/* Mobile Buttons */}
