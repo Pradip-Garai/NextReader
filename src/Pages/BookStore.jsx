@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { FiSearch, FiHeart, FiShoppingCart, FiFilter, FiChevronDown, FiStar } from 'react-icons/fi';
-import Cart from './Cart';  
+import React, { useState } from 'react';
+import {
+  FiSearch,
+  FiHeart,
+  FiShoppingCart,
+  FiFilter,
+  FiChevronDown,
+  FiStar,
+  FiRefreshCw
+} from 'react-icons/fi';
 
 const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
-  // Sample book data
   const [books, setBooks] = useState([
     {
       id: 1,
@@ -12,7 +18,7 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 24.99,
       category: "Thriller",
       rating: 4.5,
-      image: "/book1.jpg",
+      image: "/book1.webp",
       liked: false,
       inCart: false
     },
@@ -23,7 +29,7 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 18.99,
       category: "Fiction",
       rating: 4.8,
-      image: "/book2.jpg",
+      image: "/book2.webp",
       liked: false,
       inCart: false
     },
@@ -34,7 +40,7 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 16.99,
       category: "Self-Help",
       rating: 4.7,
-      image: "/book3.jpg",
+      image: "/book3.webp",
       liked: false,
       inCart: false
     },
@@ -45,7 +51,7 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 21.99,
       category: "Memoir",
       rating: 4.6,
-      image: "/book4.jpg",
+      image: "/book4.webp",
       liked: false,
       inCart: false
     },
@@ -56,7 +62,7 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 19.99,
       category: "Fiction",
       rating: 4.4,
-      image: "/book5.jpg",
+      image: "/book5.webp",
       liked: false,
       inCart: false
     },
@@ -67,83 +73,95 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       price: 26.99,
       category: "Science Fiction",
       rating: 4.9,
-      image: "/book6.jpg",
+      image: "/book2.webp",
       liked: false,
       inCart: false
     }
   ]);
 
-  // State for filters and sorting
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [priceRange, setPriceRange] = useState([0, 50]);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
   const [sortOption, setSortOption] = useState('Featured');
   const [showFilters, setShowFilters] = useState(false);
 
-  // Get unique categories
   const categories = ['All', ...new Set(books.map(book => book.category))];
+  const priceRanges = [
+    { label: 'Under $10', min: 0, max: 10 },
+    { label: '$10 - $20', min: 10, max: 20 },
+    { label: '$20 - $30', min: 20, max: 30 },
+    { label: 'Over $30', min: 30, max: 50 }
+  ];
 
-  // Filter and sort books
   const filteredBooks = books
-    .filter(book => 
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    .filter(book =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       book.author.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .filter(book => 
+    .filter(book =>
       selectedCategory === 'All' || book.category === selectedCategory
     )
-    .filter(book => 
-      book.price >= priceRange[0] && book.price <= priceRange[1]
-    )
+    .filter(book => {
+      if (selectedPriceRanges.length === 0) return true;
+      return selectedPriceRanges.some(range => 
+        book.price >= range.min && book.price <= range.max
+      );
+    })
     .sort((a, b) => {
-      switch(sortOption) {
-        case 'Price: Low to High':
-          return a.price - b.price;
-        case 'Price: High to Low':
-          return b.price - a.price;
-        case 'Rating':
-          return b.rating - a.rating;
-        case 'A-Z':
-          return a.title.localeCompare(b.title);
-        default:
-          return 0;
+      switch (sortOption) {
+        case 'Price: Low to High': return a.price - b.price;
+        case 'Price: High to Low': return b.price - a.price;
+        case 'Rating': return b.rating - a.rating;
+        case 'A-Z': return a.title.localeCompare(b.title);
+        default: return 0;
       }
     });
 
-  // Toggle like status
   const toggleLike = (id) => {
-  setBooks(books.map(book =>
-    book.id === id ? { ...book, liked: !book.liked } : book
-  ));
+    setBooks(books.map(book =>
+      book.id === id ? { ...book, liked: !book.liked } : book
+    ));
+    if (favorites.includes(id)) {
+      setFavorites(favorites.filter(item => item !== id));
+    } else {
+      setFavorites([...favorites, id]);
+    }
+  };
 
-  if (favorites.includes(id)) {
-    setFavorites(favorites.filter(item => item !== id));
-  } else {
-    setFavorites([...favorites, id]);
-  }
-};
-
-
-  // Toggle cart status
   const toggleCart = (id) => {
-  setBooks(books.map(book =>
-    book.id === id ? { ...book, inCart: !book.inCart } : book
-  ));
+    setBooks(books.map(book =>
+      book.id === id ? { ...book, inCart: !book.inCart } : book
+    ));
+    if (cart.includes(id)) {
+      setCart(cart.filter(item => item !== id));
+    } else {
+      setCart([...cart, id]);
+    }
+  };
 
-  if (cart.includes(id)) {
-    setCart(cart.filter(item => item !== id));
-  } else {
-    setCart([...cart, id]);
-  }
-};
+  const togglePriceRange = (range) => {
+    if (selectedPriceRanges.some(r => 
+      r.min === range.min && r.max === range.max
+    )) {
+      setSelectedPriceRanges(selectedPriceRanges.filter(r => 
+        r.min !== range.min || r.max !== range.max
+      ));
+    } else {
+      setSelectedPriceRanges([...selectedPriceRanges, range]);
+    }
+  };
 
+  const resetAllFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('All');
+    setSelectedPriceRanges([]);
+    setSortOption('Featured');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
-
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Search and Filter Bar */}
+        {/* Search & Filter */}
         <div className="mb-8 bg-white p-6 rounded-lg shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Search */}
@@ -154,34 +172,34 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
               <input
                 type="text"
                 placeholder="Search by title or author"
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 sm:text-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            {/* Sort Dropdown */}
+            {/* Sort */}
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 bg-white text-sm text-gray-700 hover:bg-gray-50"
               >
-                <FiFilter className="mr-2 h-5 w-5" />
+                <FiFilter className="mr-2" />
                 {sortOption}
-                <FiChevronDown className="ml-2 h-5 w-5" />
+                <FiChevronDown className="ml-2" />
               </button>
 
               {showFilters && (
-                <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                <div className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-md z-10 ring-1 ring-black ring-opacity-5">
                   <div className="py-1">
-                    {['Featured', 'Price: Low to High', 'Price: High to Low', 'Rating', 'A-Z'].map((option) => (
+                    {['Featured', 'Price: Low to High', 'Price: High to Low', 'Rating', 'A-Z'].map(option => (
                       <button
                         key={option}
                         onClick={() => {
                           setSortOption(option);
                           setShowFilters(false);
                         }}
-                        className={`block px-4 py-2 text-sm w-full text-left ${sortOption === option ? 'bg-blue-100 text-blue-800' : 'text-gray-700 hover:bg-gray-100'}`}
+                        className={`block px-4 py-2 text-sm w-full text-left ${sortOption === option ? 'bg-blue-100 text-blue-800' : 'hover:bg-gray-100'}`}
                       >
                         {option}
                       </button>
@@ -192,13 +210,13 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
             </div>
           </div>
 
-          {/* Category and Price Filters */}
-          <div className="mt-4 flex flex-wrap gap-4">
+          {/* Category and Price Filter */}
+          <div className="mt-4 flex flex-wrap gap-4 items-end">
             <div>
               <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select
                 id="category"
-                className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md sm:text-sm"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
@@ -209,65 +227,70 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
             </div>
 
             <div className="flex-grow">
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">Price Range: ${priceRange[0]} - ${priceRange[1]}</label>
-              <div className="flex items-center space-x-4">
-                <input
-                  type="range"
-                  min="0"
-                  max="50"
-                  step="5"
-                  value={priceRange[0]}
-                  onChange={(e) => setPriceRange([parseInt(e.target.value), priceRange[1]])}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="50"
-                  step="5"
-                  value={priceRange[1]}
-                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
+              <div className="flex flex-wrap gap-3">
+                {priceRanges.map((range, index) => (
+                  <div key={index} className="flex items-center">
+                    <input
+                      id={`price-range-${index}`}
+                      type="checkbox"
+                      checked={selectedPriceRanges.some(r => 
+                        r.min === range.min && r.max === range.max
+                      )}
+                      onChange={() => togglePriceRange(range)}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor={`price-range-${index}`} className="ml-2 text-sm text-gray-700">
+                      {range.label}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <button
+              onClick={resetAllFilters}
+              className="flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <FiRefreshCw className="mr-2" />
+              Reset All
+            </button>
           </div>
         </div>
 
-        {/* Book Grid */}
+        {/* Book Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {filteredBooks.map((book) => (
-            <div key={book.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div className="relative">
-                <img
-                  src={book.image}
-                  alt={book.title}
-                  className="w-full h-64 object-cover"
-                />
+          {filteredBooks.map(book => (
+            <div key={book.id} className="bg-white rounded-xl shadow-md border border-gray-100 flex flex-col h-full overflow-hidden hover:shadow-lg transition-all duration-300">
+              {/* Image */}
+              <div className="h-48 bg-gray-50 flex items-center justify-center p-1 relative">
+                <img src={book.image} alt={book.title} className="h-full object-contain" />
                 <button
                   onClick={() => toggleLike(book.id)}
-                  className={`absolute top-2 right-2 p-2 rounded-full ${book.liked ? 'bg-red-100 text-red-500' : 'bg-white text-gray-400'} hover:bg-red-100 hover:text-red-500 transition-colors`}
+                  className={`absolute top-2 right-2 p-2 rounded-full ${book.liked ? 'bg-red-100 text-red-500' : 'bg-white text-gray-400'} hover:bg-red-100 hover:text-red-500`}
                 >
                   <FiHeart className="h-5 w-5" />
                 </button>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-1">{book.title}</h3>
+
+              {/* Info */}
+              <div className="p-4 flex flex-col flex-grow">
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">{book.title}</h3>
                 <p className="text-gray-600 mb-2">{book.author}</p>
                 <div className="flex items-center mb-3">
                   {[...Array(5)].map((_, i) => (
                     <FiStar
                       key={i}
-                      className={`h-4 w-4 ${i < Math.floor(book.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                      className={`h-4 w-4 ${i < Math.floor(book.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
                     />
                   ))}
                   <span className="ml-1 text-sm text-gray-500">{book.rating}</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="mt-auto flex justify-between items-center">
                   <span className="text-lg font-bold text-gray-900">${book.price.toFixed(2)}</span>
                   <button
                     onClick={() => toggleCart(book.id)}
-                    className={`px-4 py-2 rounded-md ${book.inCart ? 'bg-green-100 text-green-800' : 'bg-blue-600 text-white'} hover:bg-blue-700 transition-colors`}
+                    className={`px-4 py-2 rounded-md text-sm ${book.inCart ? 'bg-green-100 text-green-800' : 'bg-blue-600 text-white'} hover:bg-blue-700`}
                   >
                     {book.inCart ? 'Added' : 'Add to Cart'}
                   </button>
