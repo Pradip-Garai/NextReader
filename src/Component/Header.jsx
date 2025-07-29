@@ -55,9 +55,11 @@ function Header({ cart, favorites }) {
 
               {/* Auth Buttons */}
               <div className="flex items-center space-x-4">
-                <button className="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors duration-200">
-                  Login
-                </button>
+                 
+                  <button className="text-gray-600 hover:text-blue-600 font-medium text-sm transition-colors duration-200">
+                    Login
+                  </button>
+                
                 <Link to="/register">
                   <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm px-4 py-2 rounded-md transition-colors duration-200 shadow-sm">
                     Sign Up
@@ -156,9 +158,11 @@ function Header({ cart, favorites }) {
                 </div>
 
                 <div className="pt-2 space-y-2">
-                  <button className="w-full py-2 px-4 text-left text-gray-700 hover:bg-gray-50 rounded-md">
-                    Login
-                  </button>
+                  
+                    <button className="w-full py-2 px-4 text-left text-gray-700 hover:bg-gray-50 rounded-md">
+                      Login
+                    </button>
+                  
                   <Link to="/register">
                     <button className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                       Sign Up
