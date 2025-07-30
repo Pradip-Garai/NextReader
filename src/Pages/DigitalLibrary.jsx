@@ -6,8 +6,10 @@ import {
   FiFilter,
   FiChevronDown,
   FiStar,
-  FiRefreshCw
+  FiRefreshCw,
+  FiX
 } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const DigitalLibrary = ({ cart, setCart }) => {
   const [books, setBooks] = useState([
@@ -27,7 +29,7 @@ const DigitalLibrary = ({ cart, setCart }) => {
       id: 2,
       title: "The Pragmatic Programmer",
       author: "Andrew Hunt, David Thomas",
-      price: 9.99,
+      price: 799,
       category: "Programming",
       rating: 4.7,
       image: "/book2.webp",
@@ -51,7 +53,7 @@ const DigitalLibrary = ({ cart, setCart }) => {
       id: 4,
       title: "Clean Code",
       author: "Robert C. Martin",
-      price: 7.99,
+      price: 599,
       category: "Programming",
       rating: 4.9,
       image: "/book4.webp",
@@ -65,6 +67,8 @@ const DigitalLibrary = ({ cart, setCart }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortOption, setSortOption] = useState('Featured');
   const [showFilters, setShowFilters] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedBookForPurchase, setSelectedBookForPurchase] = useState(null);
 
   const categories = ['All', ...new Set(books.map(book => book.category))];
 
@@ -86,19 +90,43 @@ const DigitalLibrary = ({ cart, setCart }) => {
       }
     });
 
-  const handleDownload = (pdfUrl) => {
-    window.open(pdfUrl, '_blank');
+  const handleDownload = async (pdfUrl) => {
+    try {
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = pdfUrl.split('/').pop(); // Gets the filename from the URL
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download the book. Please try again.');
+    }
   };
 
-  const toggleCart = (id) => {
-    setBooks(books.map(book =>
-      book.id === id ? { ...book, inCart: !book.inCart } : book
-    ));
-    if (cart.includes(id)) {
-      setCart(cart.filter(item => item !== id));
-    } else {
-      setCart([...cart, id]);
+  const toggleCart = (book) => {
+    if (!book.isFree) {
+      setSelectedBookForPurchase(book);
+      setShowPaymentModal(true);
     }
+  };
+
+  const handlePayment = () => {
+    const book = selectedBookForPurchase;
+    setBooks(books.map(b =>
+      b.id === book.id ? { ...b, inCart: true } : b
+    ));
+    if (!cart.includes(book.id)) {
+      setCart([...cart, book.id]);
+    }
+    setShowPaymentModal(false);
+    setSelectedBookForPurchase(null);
+    // Trigger download after payment
+    handleDownload(book.pdfUrl);
   };
 
   const resetAllFilters = () => {
@@ -223,13 +251,13 @@ const DigitalLibrary = ({ cart, setCart }) => {
                     </button>
                   ) : (
                     <>
-                      <span className="text-lg font-bold text-gray-900">${book.price.toFixed(2)}</span>
+                      <span className="text-lg font-bold text-gray-900">₹{book.price}</span>
                       <button
-                        onClick={() => toggleCart(book.id)}
+                        onClick={() => toggleCart(book)}
                         className={`px-4 py-2 rounded-md text-sm ${book.inCart ? 'bg-green-100 text-green-800' : 'bg-blue-600 text-white'} hover:bg-blue-700 flex items-center`}
                       >
                         <FiShoppingCart className="mr-2" />
-                        {book.inCart ? 'Added' : 'Buy & Download'}
+                        {book.inCart ? 'Download' : 'Buy & Download'}
                       </button>
                     </>
                   )}
@@ -245,6 +273,58 @@ const DigitalLibrary = ({ cart, setCart }) => {
             <p className="mt-2 text-gray-600">Try adjusting your search or filter criteria</p>
           </div>
         )}
+
+        {/* Payment Modal */}
+        <AnimatePresence>
+          {showPaymentModal && selectedBookForPurchase && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            >
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.95 }}
+                className="bg-white rounded-xl p-6 max-w-md w-full mx-4"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">Complete Purchase</h2>
+                  <button
+                    onClick={() => {
+                      setShowPaymentModal(false);
+                      setSelectedBookForPurchase(null);
+                    }}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <FiX size={24} />
+                  </button>
+                </div>
+
+                <div className="mb-6">
+                  <h3 className="font-medium">{selectedBookForPurchase.title}</h3>
+                  <p className="text-gray-600">Amount: ₹{selectedBookForPurchase.price}</p>
+                </div>
+
+                <div className="space-y-4">
+                  <button
+                    onClick={handlePayment}
+                    className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    Pay with UPI
+                  </button>
+                  <button
+                    onClick={handlePayment}
+                    className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    Pay with Card
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import BookDetails from './Pages/BookDetails';
 import Header from './Component/Header';
 import Body from './Pages/Body';
 import Footer from './Component/Footer';
@@ -42,6 +43,17 @@ function App() {
           }
         />
         {/* Cart Route */}
+        <Route
+          path='/book/:id'
+          element={
+            <BookDetails
+              cart={cart}
+              setCart={setCart}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
+          }
+        />
         <Route
           path='/cart'
           element={

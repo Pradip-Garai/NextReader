@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FiSearch,
   FiHeart,
@@ -10,6 +11,7 @@ import {
 } from 'react-icons/fi';
 
 const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
+  const navigate = useNavigate();
   const [books, setBooks] = useState([
     {
       id: 1,
@@ -20,7 +22,13 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
       rating: 4.5,
       image: "/book1.webp",
       liked: false,
-      inCart: false
+      inCart: false,
+      description: "A woman's act of violence against her husband and her subsequent silence render a criminal psychotherapist obsessed with uncovering her motive in this #1 New York Times bestselling psychological thriller.",
+      pages: 384,
+      publisher: "Celadon Books",
+      isbn: "9781250301697",
+      language: "English",
+      format: "Hardcover"
     },
     {
       id: 2,
@@ -197,10 +205,10 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
 
   const categories = ['All', ...new Set(books.map(book => book.category))];
   const priceRanges = [
-    { label: 'Under $10', min: 0, max: 10 },
-    { label: '$10 - $20', min: 10, max: 20 },
-    { label: '$20 - $30', min: 20, max: 30 },
-    { label: 'Over $30', min: 30, max: 50 }
+    { label: 'Under ₹1000', min: 0, max: 1000 },
+    { label: '₹1000 - ₹1500', min: 1000, max: 1500 },
+    { label: '₹1500 - ₹2000', min: 1500, max: 2000 },
+    { label: 'Over ₹2000', min: 2000, max: 5000 }
   ];
 
   const filteredBooks = books
@@ -213,8 +221,9 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
     )
     .filter(book => {
       if (selectedPriceRanges.length === 0) return true;
+      const priceInRupees = book.price * 83;
       return selectedPriceRanges.some(range => 
-        book.price >= range.min && book.price <= range.max
+        priceInRupees >= range.min && priceInRupees <= range.max
       );
     })
     .sort((a, b) => {
@@ -427,7 +436,15 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
         {/* Book Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredBooks.map(book => (
-            <div key={book.id} className="bg-white rounded-xl shadow-md border border-gray-100 flex flex-col h-full overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div 
+              key={book.id} 
+              className="bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-100 flex flex-col h-full overflow-hidden transition-all duration-300 cursor-pointer"
+              onClick={(e) => {
+                // Prevent navigation if clicking on buttons
+                if (e.target.closest('button')) return;
+                navigate(`/book/${book.id}`, { state: { book } });
+              }}
+            >
               {/* Image */}
               <div className="h-48 bg-gray-50 flex items-center justify-center p-1 relative">
                 <img src={book.image} alt={book.title} className="h-full object-contain" />
@@ -452,14 +469,26 @@ const BookStore = ({ cart, setCart, favorites, setFavorites }) => {
                   ))}
                   <span className="ml-1 text-sm text-gray-500">{book.rating}</span>
                 </div>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="text-lg font-bold text-gray-900">${book.price.toFixed(2)}</span>
-                  <button
-                    onClick={() => toggleCart(book.id)}
-                    className={`px-4 py-2 rounded-md text-sm ${book.inCart ? 'bg-green-100 text-green-800' : 'bg-blue-600 text-white'} hover:bg-blue-700`}
-                  >
-                    {book.inCart ? 'Added' : 'Add to Cart'}
-                  </button>
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <span className="text-lg font-bold text-gray-900">₹{(book.price * 83).toFixed(2)}</span>
+                      <span className="text-sm text-gray-500 line-through ml-2">₹{((book.price * 83) * 1.2).toFixed(2)}</span>
+                    </div>
+                    <button
+                      onClick={() => toggleCart(book.id)}
+                      className={`px-4 py-2 rounded-lg text-sm ${
+                        book.inCart 
+                          ? 'bg-green-50 text-green-700 border border-green-200' 
+                          : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                      } transition-colors`}
+                    >
+                      {book.inCart ? 'Added' : 'Add to Cart'}
+                    </button>
+                  </div>
+                  <div className="text-sm text-gray-500 border-t pt-2 text-center">
+                    Click to view more details
+                  </div>
                 </div>
               </div>
             </div>
